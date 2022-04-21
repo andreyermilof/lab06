@@ -1,0 +1,32 @@
+
+
+name: CI
+
+on:
+
+  push:
+    branches: [ master ]
+
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      - uses: actions/checkout@v3
+
+
+      - name: set
+        run: sudo apt install cmake rpm g++
+      
+      - name: build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+          cpack -G DEB
+          cpack -G RPM
