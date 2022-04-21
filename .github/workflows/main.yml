@@ -43,4 +43,4 @@ jobs:
           cd build
           cmake ..
           cmake --build .
-          cpack -G NSYS
+          cpack -G NSIS
