@@ -43,5 +43,5 @@ jobs:
           cd build
           cmake ..
           cmake --build .
-          cpack -C Release
+          cpack -C Debug
           cpack -G NSIS64
