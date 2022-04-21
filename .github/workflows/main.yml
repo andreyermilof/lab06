@@ -8,12 +8,11 @@ on:
     branches: [ master ]
 
 jobs:
-  # This workflow contains a single job called "build"
+
   build:
 
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
       - uses: actions/checkout@v3
@@ -30,3 +29,16 @@ jobs:
           cmake --build .
           cpack -G DEB
           cpack -G RPM
+          cpack -G TGZ
+          
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
