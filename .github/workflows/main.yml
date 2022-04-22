@@ -27,9 +27,13 @@ jobs:
           cmake --build . --config Release
           cpack -C Release
           cpack -G NSIS64
+      - uses: actions/upload-artifact@v3
+        with:
+          name: win-art
+          path: D:/a/lab06/lab06/build/solver_mega-0.1.1-win64.exe
           
   build2:
-    
+    needs: build1 
     runs-on: macos-latest
     steps:
         - uses: actions/checkout@v3
@@ -40,8 +44,12 @@ jobs:
             cmake ..
             cmake --build .
             cpack -G DragNDrop
+        - uses: actions/upload-artifact@v3
+          with:
+            name: mac-art
+            path: /Users/runner/work/lab06/lab06/build/solver_mega-0.1.1-Darwin.dmg
   build3:
-
+    needs: build2   
     runs-on: ubuntu-latest
 
     steps:
@@ -62,11 +70,12 @@ jobs:
           
       - uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: lin-art
           path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb
           
   create-release:
-      needs: build3
+      needs: build3 
+      
       runs-on: ubuntu-latest
 
       steps:
@@ -82,14 +91,26 @@ jobs:
               draft: false
               prerelease: false
               
-         - name: 'Download artifact '
+         - name: 'Download artifact linux'
            uses: actions/download-artifact@v1
            with:
-              name: 'my-artifact'
+              name: 'lin-art'
+              path: ./
+              
+         - name: 'Download artifact win'
+           uses: actions/download-artifact@v1
+           with:
+              name: 'win-art'
+              path: ./
+              
+         - name: 'Download artifact mac'
+           uses: actions/download-artifact@v1
+           with:
+              name: 'mac-art'
               path: ./
               
          - name: Upload-Release-Asset
-           id: upload-release-asset 
+           id: upload-release-asset1 
            uses: actions/upload-release-asset@v1
            env:
              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -98,6 +119,27 @@ jobs:
             asset_path: solver_mega-0.1.1-Linux.deb
             asset_name: solve.deb
             asset_content_type: application/deb
-
+        
+         - name: Upload-Release-Asset
+           id: upload-release-asset2
+           uses: actions/upload-release-asset@v1
+           env:
+             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }} 
+            asset_path: solver_mega-0.1.1-Darwin.dmg
+            asset_name: solve.dmg
+            asset_content_type: application/dmg
+            
+         - name: Upload-Release-Asset
+           id: upload-release-asset3
+           uses: actions/upload-release-asset@v1
+           env:
+             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }} 
+            asset_path: solver_mega-0.1.1-win64.exe
+            asset_name: solve.exe
+            asset_content_type: application/exe
           
  
