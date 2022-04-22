@@ -10,6 +10,35 @@ on:
 jobs:
 
   build1:
+    
+    runs-on: windows-latest
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: build-win
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+          cmake --build . --config Release
+          cpack -C Release
+          cpack -G NSIS64
+          
+  build2:
+    
+    runs-on: macos-latest
+    steps:
+        - uses: actions/checkout@v3
+        - name: build-mac
+          run: |
+            mkdir build
+            cd build
+            cmake ..
+            cmake --build .
+            cpack -G DragNDrop
+  build3:
 
     runs-on: ubuntu-latest
 
@@ -29,33 +58,13 @@ jobs:
           cmake --build .
           cpack -G DEB
           cpack -G RPM
-          cpack -G TGZ
-  build2:
-    
-    runs-on: windows-latest
-    steps:
-
-      - uses: actions/checkout@v3
-
-      - name: build-win
-        run: |
-          mkdir build
-          cd build
-          cmake ..
-          cmake --build .
-          cmake --build . --config Release
-          cpack -C Release
-          cpack -G NSIS64
           
-  build3:
-    
-    runs-on: macos-latest
-    steps:
-        - uses: actions/checkout@v3
-        - name: build-mac
-          run: |
-            mkdir build
-            cd build
-            cmake ..
-            cmake --build .
-            cpack -G DragNDrop
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false 
