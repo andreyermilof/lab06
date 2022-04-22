@@ -33,7 +33,7 @@ jobs:
           path: D:/a/lab06/lab06/build/solver_mega-0.1.1-win64.exe
           
   build2:
-    needs: build1 
+
     runs-on: macos-latest
     steps:
         - uses: actions/checkout@v3
@@ -49,7 +49,7 @@ jobs:
             name: mac-art
             path: /Users/runner/work/lab06/lab06/build/solver_mega-0.1.1-Darwin.dmg
   build3:
-    needs: build2   
+   
     runs-on: ubuntu-latest
 
     steps:
@@ -74,7 +74,7 @@ jobs:
           path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb
           
   create-release:
-      needs: build3 
+      needs: [build3, build2, build1] 
       
       runs-on: ubuntu-latest
 
