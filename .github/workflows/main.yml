@@ -67,11 +67,18 @@ jobs:
           cmake --build .
           cpack -G DEB
           cpack -G RPM
+          cpack -G 7Z
+          cpack -G TGZ
           
       - uses: actions/upload-artifact@v3
         with:
-          name: lin-art
+          name: lin-art-deb
           path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: lin-art-rpm
+          path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.rpm
           
   create-release:
       needs: [build3, build2, build1] 
@@ -91,10 +98,16 @@ jobs:
               draft: false
               prerelease: false
               
-         - name: 'Download artifact linux'
+         - name: 'Download artifact linux-deb'
            uses: actions/download-artifact@v1
            with:
-              name: 'lin-art'
+              name: 'lin-art-deb'
+              path: ./
+              
+         - name: 'Download artifact linux-deb'
+           uses: actions/download-artifact@v1
+           with:
+              name: 'lin-art-rpm'
               path: ./
               
          - name: 'Download artifact win'
