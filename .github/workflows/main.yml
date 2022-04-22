@@ -9,35 +9,7 @@ on:
 
 jobs:
 
-  build1:
-    
-    runs-on: windows-latest
-    steps:
 
-      - uses: actions/checkout@v3
-
-      - name: build-win
-        run: |
-          mkdir build
-          cd build
-          cmake ..
-          cmake --build .
-          cmake --build . --config Release
-          cpack -C Release
-          cpack -G NSIS64
-          
-  build2:
-    
-    runs-on: macos-latest
-    steps:
-        - uses: actions/checkout@v3
-        - name: build-mac
-          run: |
-            mkdir build
-            cd build
-            cmake ..
-            cmake --build .
-            cpack -G DragNDrop
   build3:
 
     runs-on: ubuntu-latest
@@ -45,7 +17,6 @@ jobs:
     steps:
 
       - uses: actions/checkout@v3
-
 
       - name: set
         run: sudo apt install cmake rpm g++
@@ -67,5 +38,3 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false 
