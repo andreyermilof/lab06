@@ -3,12 +3,9 @@
 name: CI
 
 on:
-
   push: 
-    branches:
-      - master
-#     tags:
-#        - 'v*'
+     tags:
+        - 'v*'
 
 jobs:
   build1:
@@ -73,12 +70,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: lin-art-deb
-          path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb    
-          
-      - uses: actions/upload-artifact@v3
-        with:
-          name: lin-art-deb
-          path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb
+          path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb          
           
       - uses: actions/upload-artifact@v3
         with:
