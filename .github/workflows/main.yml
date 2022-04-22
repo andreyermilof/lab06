@@ -73,12 +73,27 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: lin-art-deb
+          path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb    
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: lin-art-deb
           path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb
           
       - uses: actions/upload-artifact@v3
         with:
           name: lin-art-rpm
           path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.rpm
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: lin-art-zip
+          path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.7z
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: lin-art-tar
+          path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.tar.gz
           
   create-release:
       needs: [build3, build2, build1] 
@@ -104,10 +119,22 @@ jobs:
               name: 'lin-art-deb'
               path: ./
               
-         - name: 'Download artifact linux-deb'
+         - name: 'Download artifact linux-rpm'
            uses: actions/download-artifact@v1
            with:
               name: 'lin-art-rpm'
+              path: ./
+              
+         - name: 'Download artifact linux-zip'
+           uses: actions/download-artifact@v1
+           with:
+              name: 'lin-art-zip'
+              path: ./
+              
+         - name: 'Download artifact linux-deb'
+           uses: actions/download-artifact@v1
+           with:
+              name: 'lin-art-tar'
               path: ./
               
          - name: 'Download artifact win'
@@ -166,4 +193,25 @@ jobs:
             asset_name: solve.exe
             asset_content_type: application/exe
           
+         - name: Upload-Release-Asset
+           id: upload-release-asset1-zip
+           uses: actions/upload-release-asset@v1
+           env:
+             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }} 
+            asset_path: solver_mega-0.1.1-Linux.7z
+            asset_name: solve.zip
+            asset_content_type: application/zip
+            
+         - name: Upload-Release-Asset
+           id: upload-release-asset1-tar
+           uses: actions/upload-release-asset@v1
+           env:
+             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }} 
+            asset_path: solver_mega-0.1.1-Linux.tar.gz
+            asset_name: solve.tar.gz
+            asset_content_type: application/tar
  
