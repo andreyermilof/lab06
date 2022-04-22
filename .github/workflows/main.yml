@@ -32,6 +32,11 @@ jobs:
           cpack -G DEB
           cpack -G RPM
           
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb
+          
       - name: Create Release
         id: create_release
         uses: actions/create-release@latest
