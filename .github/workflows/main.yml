@@ -50,6 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: ./home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb
+          asset_path: /home/runner/work/lab06/lab06/build/solver_mega-0.1.1-Linux.deb
           asset_name: solve.deb
           asset_content_type: application/deb
