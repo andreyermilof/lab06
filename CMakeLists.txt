@@ -14,12 +14,15 @@ file(GLOB_RECURSE SOURCES  *_.cpp)
 file(GLOB_RECURSE INCLUDES *.h)
 file(GLOB_RECURSE LIBS lib*.a)
 
+
 target_link_libraries(${PROJECT_NAME} solver formatter_ex)
 
 install(FILES ${SOURCES} DESTINATION src)
 install(FILES ${INCLUDES} DESTINATION inc)
-install(FILES ${LIBS} DESTINATION lib)
 
+install(TARGETS formatter DESTINATION lib)
+install(TARGETS formatter_ex DESTINATION lib)
+install(TARGETS solver DESTINATION lib)
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "SOLVER")
